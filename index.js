@@ -51,7 +51,7 @@ const languageStrings = {
             GET_FACT_MESSAGE: "Did you know that? : ",
             HELP_MESSAGE: 'You can say tell me a football fact, or, you can say exit... What can I help you with?',
             HELP_REPROMPT: 'What can I help you with?',
-            STOP_MESSAGE: 'Goodbye!',
+            STOP_MESSAGE: 'Goodbye! If you liked the skill, feel free to kick some feedback',
         },
     },
     'en-IN': {
@@ -89,7 +89,7 @@ const languageStrings = {
             GET_FACT_MESSAGE: "Here's your fact: ",
             HELP_MESSAGE: 'You can say tell me a football fact, or, you can say exit... What can I help you with?',
             HELP_REPROMPT: 'What can I help you with?',
-            STOP_MESSAGE: 'Goodbye!',
+            STOP_MESSAGE: 'Goodbye! If you liked the skill, feel free to kick some feedback',
         },
     },
     'en-US': {
@@ -123,7 +123,7 @@ const languageStrings = {
                 'In 2014/15, Leicester City spent longer at the bottom of the table without being relegated than any side in Premier League history (140 days).',
                 'Mario Balotelli\’s only assist in the Premier League was for Sergio Aguero\’s title-winning goal vs QPR',
             ],
-            SKILL_NAME: 'American soccer Facts',
+            SKILL_NAME: 'Soccer Facts',
         },
     },
     'en-GB': {
