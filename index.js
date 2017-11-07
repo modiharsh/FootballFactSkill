@@ -14,6 +14,8 @@ const Alexa = require('alexa-sdk');
 
 const APP_ID = 'amzn1.ask.skill.261f2133-df56-494f-9f23-8ae1df43a397';  // TODO replace with your app ID (OPTIONAL).
 
+var savedFact = 0;
+
 const languageStrings = {
     'en': {
         translation: {
@@ -21,7 +23,7 @@ const languageStrings = {
                 'Soccer developed in London’s famed Newgate Prison in the early 1800s. Prisoners who had their hands cut off for crimes of theft came up with a sport that used only the feet. The game spread from there.',
                 'There are 32 panels on a traditional soccer ball, one for each country in Europe.',
                 'Brazilian soccer legend Pelé was born Edson Arantes do Nascimento. He took the nickname Pelé, a Brazilian Portuguese word meaning “six feet,” due to being born with six toes on each foot.',
-                'The first American professional soccer league, the USSA, played from 1919 to 1921 and paid its players 35-cents for every goal scored.',
+                'The first American professional soccer league, the USSA, played from 1919 to 1921 and paid its players 35 cents for every goal scored.',
                 'The original World Cup was made of papier-mâché, but it had to be replaced after the heavy rains of the 1950 World Cup.',
                 'Queen Elizabeth II was a natural athlete and, dressed in disguise, was a frequent participant in pickup up soccer matches near Buckingham Palace in her teenage years in the late 1930s and early 40s.',
                 'A professional soccer player runs 48 kilometers, or 3.9 miles, in an average soccer game.',
@@ -40,7 +42,7 @@ const languageStrings = {
                 'The North Korean World Cup soccer fans are actually hand-picked by the North Korean government. The fans are also made up of Chinese volunteers since North Koreans are not allowed to travel.',
                 'A Greek soccer player, Giorgos Katidis, was given a life ban for giving the Nazi salute after his winning goal during a league game.',
                 'Hitler grew to hate soccer because it couldn’t be fixed to ensure German victory over non-Germans.',
-                'In 1967, the two factions involved in the Nigerian Civil War agreed to a 48-hour ceasefire so they could watch Pelé play an exhibition game in Lagos.',
+                'In 1967, the two factions involved in the Nigerian Civil War agreed to a 48 hour ceasefire so they could watch Pelé play an exhibition game in Lagos.',
                 'Greenland can’t join FIFA because not enough grass grows there for a soccer field.',
                 'In 1998, during a soccer match in Congo, a lightning bolt struck the pitch and killed all 11 members of one team. The other team was left unscathed.',
                 'In 1985, English soccer hooligans killed 39 people and caused 600 injuries, causing all English teams to be banned from international competition for 5 years.',
@@ -48,10 +50,10 @@ const languageStrings = {
                 'Norway is the only national football team in the world that has never lost to Brazil. (2 wins and 2 draws).',
                 'Harald Bohr (brother of Niels Bohr) was a mathematician and a football player. His popularity as a footballer was such that when he defended his doctoral thesis the audience was reported as having more football fans than mathematicians',
                 'Two players have scored Premier League penalties with both feet: Bobby Zamora and Obafemi Martins.',
-                'Ryan Giggs has been substituted more times than any other player - 134 times',
+                'Ryan Giggs has been substituted more times than any other player  134 times',
                 'Wayne Rooney, Gareth Bale and Kevin Davies are the only players to score, assist and score an own goal in a single Premier League game.',
                 'Man United have never lost a Premier League game at Old Trafford in which they have been ahead at half-time',
-                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most -56',
+                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most - 56',
                 '2015/16 was the first time West Ham had recorded a positive goal difference in a top-flight season since 1985/86',
                 'Former England goalkeeper Paul Robinson has scored, assisted and won a penalty in the Premier League. He also has more Premier League assists than any other keeper - 5',
                 'Only three players born after the Premier League began (August 1992) have scored Premier League hat-tricks: Raheem Sterling, Harry Kane and Romelu Lukaku',
@@ -74,7 +76,7 @@ const languageStrings = {
                 'Soccer developed in London’s famed Newgate Prison in the early 1800s. Prisoners who had their hands cut off for crimes of theft came up with a sport that used only the feet. The game spread from there.',
                 'There are 32 panels on a traditional soccer ball, one for each country in Europe.',
                 'Brazilian soccer legend Pelé was born Edson Arantes do Nascimento. He took the nickname Pelé, a Brazilian Portuguese word meaning “six feet,” due to being born with six toes on each foot.',
-                'The first American professional soccer league, the USSA, played from 1919 to 1921 and paid its players 35-cents for every goal scored.',
+                'The first American professional soccer league, the USSA, played from 1919 to 1921 and paid its players 35 cents for every goal scored.',
                 'The original World Cup was made of papier-mâché, but it had to be replaced after the heavy rains of the 1950 World Cup.',
                 'Queen Elizabeth II was a natural athlete and, dressed in disguise, was a frequent participant in pickup up soccer matches near Buckingham Palace in her teenage years in the late 1930s and early 40s.',
                 'A professional soccer player runs 48 kilometers, or 3.9 miles, in an average soccer game.',
@@ -93,7 +95,7 @@ const languageStrings = {
                 'The North Korean World Cup soccer fans are actually hand-picked by the North Korean government. The fans are also made up of Chinese volunteers since North Koreans are not allowed to travel.',
                 'A Greek soccer player, Giorgos Katidis, was given a life ban for giving the Nazi salute after his winning goal during a league game.',
                 'Hitler grew to hate soccer because it couldn’t be fixed to ensure German victory over non-Germans.',
-                'In 1967, the two factions involved in the Nigerian Civil War agreed to a 48-hour ceasefire so they could watch Pelé play an exhibition game in Lagos.',
+                'In 1967, the two factions involved in the Nigerian Civil War agreed to a 48 hour ceasefire so they could watch Pelé play an exhibition game in Lagos.',
                 'Greenland can’t join FIFA because not enough grass grows there for a soccer field.',
                 'In 1998, during a soccer match in Congo, a lightning bolt struck the pitch and killed all 11 members of one team. The other team was left unscathed.',
                 'In 1985, English soccer hooligans killed 39 people and caused 600 injuries, causing all English teams to be banned from international competition for 5 years.',
@@ -104,7 +106,7 @@ const languageStrings = {
                 'Ryan Giggs has been substituted more times than any other player - 134 times',
                 'Wayne Rooney, Gareth Bale and Kevin Davies are the only players to score, assist and score an own goal in a single Premier League game.',
                 'Man United have never lost a Premier League game at Old Trafford in which they have been ahead at half-time',
-                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most -56',
+                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most - 56',
                 '2015/16 was the first time West Ham had recorded a positive goal difference in a top-flight season since 1985/86',
                 'Former England goalkeeper Paul Robinson has scored, assisted and won a penalty in the Premier League. He also has more Premier League assists than any other keeper - 5',
                 'Only three players born after the Premier League began (August 1992) have scored Premier League hat-tricks: Raheem Sterling, Harry Kane and Romelu Lukaku',
@@ -113,8 +115,8 @@ const languageStrings = {
                 'In 2014/15, Leicester City spent longer at the bottom of the table without being relegated than any side in Premier League history (140 days).',
                 'Mario Balotelli\’s only assist in the Premier League was for Sergio Aguero\’s title-winning goal vs QPR',
             ],
-            SKILL_NAME: 'Indian Football Facts',
-            GET_FACT_MESSAGE: "Here's your fact: ",
+            SKILL_NAME: 'Football Facts',
+            GET_FACT_MESSAGE: "Did you know that? ",
             HELP_MESSAGE: 'You can say tell me a football fact, or, you can say exit... What can I help you with?',
             HELP_REPROMPT: 'What can I help you with?',
             STOP_MESSAGE: 'Goodbye! If you liked the skill, feel free to kick some feedback',
@@ -156,7 +158,7 @@ const languageStrings = {
                 'Ryan Giggs has been substituted more times than any other player - 134 times',
                 'Wayne Rooney, Gareth Bale and Kevin Davies are the only players to score, assist and score an own goal in a single Premier League game.',
                 'Man United have never lost a Premier League game at Old Trafford in which they have been ahead at half-time',
-                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most -56',
+                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most - 56',
                 '2015/16 was the first time West Ham had recorded a positive goal difference in a top-flight season since 1985/86',
                 'Former England goalkeeper Paul Robinson has scored, assisted and won a penalty in the Premier League. He also has more Premier League assists than any other keeper - 5',
                 'Only three players born after the Premier League began (August 1992) have scored Premier League hat-tricks: Raheem Sterling, Harry Kane and Romelu Lukaku',
@@ -204,7 +206,7 @@ const languageStrings = {
                 'Ryan Giggs has been substituted more times than any other player - 134 times',
                 'Wayne Rooney, Gareth Bale and Kevin Davies are the only players to score, assist and score an own goal in a single Premier League game.',
                 'Man United have never lost a Premier League game at Old Trafford in which they have been ahead at half-time',
-                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most -56',
+                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most - 56',
                 '2015/16 was the first time West Ham had recorded a positive goal difference in a top-flight season since 1985/86',
                 'Former England goalkeeper Paul Robinson has scored, assisted and won a penalty in the Premier League. He also has more Premier League assists than any other keeper - 5',
                 'Only three players born after the Premier League began (August 1992) have scored Premier League hat-tricks: Raheem Sterling, Harry Kane and Romelu Lukaku',
@@ -213,7 +215,7 @@ const languageStrings = {
                 'In 2014/15, Leicester City spent longer at the bottom of the table without being relegated than any side in Premier League history (140 days).',
                 'Mario Balotelli\’s only assist in the Premier League was for Sergio Aguero\’s title-winning goal vs QPR',
             ],
-            SKILL_NAME: 'British Football Facts',
+            SKILL_NAME: 'Football Facts',
         },
     },
     'de': {
@@ -252,7 +254,7 @@ const languageStrings = {
                 'Ryan Giggs has been substituted more times than any other player - 134 times',
                 'Wayne Rooney, Gareth Bale and Kevin Davies are the only players to score, assist and score an own goal in a single Premier League game.',
                 'Man United have never lost a Premier League game at Old Trafford in which they have been ahead at half-time',
-                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most -56',
+                'Alan Shearer has missed the most Premier League penalties - 11 times. In fairness, he has also scored the most - 56',
                 '2015/16 was the first time West Ham had recorded a positive goal difference in a top-flight season since 1985/86',
                 'Former England goalkeeper Paul Robinson has scored, assisted and won a penalty in the Premier League. He also has more Premier League assists than any other keeper - 5',
                 'Only three players born after the Premier League began (August 1992) have scored Premier League hat-tricks: Raheem Sterling, Harry Kane and Romelu Lukaku',
@@ -270,12 +272,32 @@ const languageStrings = {
     },
 };
 
+
+
+
 const handlers = {
     'LaunchRequest': function () {
-        this.emit('GetFact');
+        const factArr = this.t('FACTS');
+        const factIndex = Math.floor(Math.random() * factArr.length);
+        const randomFact = factArr[factIndex];
+        savedFact = factArr[factIndex];
+        
+        const speechOutput = "Welcome to football facts!!" + this.t('GET_FACT_MESSAGE') + randomFact;
+        //this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), randomFact).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
+        this.response.speak(speechOutput).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
+        this.emit(':responseReady');
     },
     'GetNewFactIntent': function () {
         this.emit('GetFact');
+    },
+    'GetNextFactIntent': function () {
+        this.emit('GetFact');
+    },
+    'GetPrevFactIntent': function () {
+        const speechOutput = this.t('GET_FACT_MESSAGE') + savedFact;
+        //this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), savedFact).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
+        this.response.speak(speechOutput).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
+        this.emit(':responseReady');
     },
     'GetFact': function () {
         // Get a random football fact from the Football Facts list
@@ -283,10 +305,12 @@ const handlers = {
         const factArr = this.t('FACTS');
         const factIndex = Math.floor(Math.random() * factArr.length);
         const randomFact = factArr[factIndex];
-
+        savedFact = factArr[factIndex];
         // Create speech output
         const speechOutput = this.t('GET_FACT_MESSAGE') + randomFact;
-        this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), randomFact);
+        //this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), randomFact).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
+        this.response.speak(speechOutput).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
+        this.emit(':responseReady');
     },
     'AMAZON.HelpIntent': function () {
         const speechOutput = this.t('HELP_MESSAGE');
