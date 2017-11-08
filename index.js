@@ -363,6 +363,9 @@ const handlers = {
     'AMAZON.StopIntent': function () {
         this.emit(':tell', this.t('STOP_MESSAGE'));
     },
+    'Unhandled': function() {
+        this.emit(':ask',`I\'m sorry, but I\'m not sure what you asked me.`);
+      },
 };
 
 exports.handler = function (event, context) {
