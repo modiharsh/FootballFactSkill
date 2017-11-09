@@ -324,8 +324,9 @@ const handlers = {
         
         const speechOutput = "Welcome to football facts!!" + this.t('GET_FACT_MESSAGE') + randomFact;
         //this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), randomFact).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
-        this.response.speak(speechOutput).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
-        this.emit(':responseReady');
+        //this.response.speak(speechOutput).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
+        //this.emit(':responseReady');
+        this.emit(':ask',speechOutput,'Please say Repeat to listen to the fact again or say Next to listen to a new fact or say stop to exit.');
     },
     'GetNewFactIntent': function () {
         this.emit('GetFact');
@@ -336,8 +337,9 @@ const handlers = {
     'GetPrevFactIntent': function () {
         const speechOutput = this.t('GET_FACT_MESSAGE') + savedFact;
         //this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), savedFact).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
-        this.response.speak(speechOutput).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
-        this.emit(':responseReady');
+        //this.response.speak(speechOutput).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
+        //this.emit(':responseReady');
+        this.emit(':ask',speechOutput,'Please say Repeat to listen to the fact again or say Next to listen to a new fact or say stop to exit.');
     },
     'GetFact': function () {
         // Get a random football fact from the Football Facts list
@@ -349,8 +351,9 @@ const handlers = {
         // Create speech output
         const speechOutput = this.t('GET_FACT_MESSAGE') + randomFact;
         //this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), randomFact).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
-        this.response.speak(speechOutput).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
-        this.emit(':responseReady');
+        //this.response.speak(speechOutput).listen("Please say Repeat to listen to the fact again or say Next to listen to a new fact or stop to exit.");
+        //this.emit(':responseReady');
+        this.emit(':ask',speechOutput,'Please say Repeat to listen to the fact again or say Next to listen to a new fact or say stop to exit.');
     },
     'AMAZON.HelpIntent': function () {
         const speechOutput = this.t('HELP_MESSAGE');
@@ -364,7 +367,7 @@ const handlers = {
         this.emit(':tell', this.t('STOP_MESSAGE'));
     },
     'Unhandled': function() {
-        this.emit(':ask',`I\'m sorry, but I\'m not sure what you asked me.`);
+        this.emit(':ask','I\'m sorry, but I\'m not sure what you asked me.','Say Repeat to listen to the fact again, say Next to listen to a new fact, say stop to exit.');
       },
 };
 
